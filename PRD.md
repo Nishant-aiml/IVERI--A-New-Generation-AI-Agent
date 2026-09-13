@@ -8,42 +8,45 @@
 
 ---
 
-## 1. Executive Summary & Vision
+## 1. Executive Summary & Universal Mission
 
 ### 1.1 Product Vision
-**IVERI AI Agent** is the world's first unified, sovereign, air-gapped personal and industrial AI agent workbench. Built upon an enterprise-grade agent kernel (forked from the battle-tested Hermes Agent architecture), IVERI delivers the autonomous software engineering capabilities of Claude Code and Devin, the document analysis and synthesis of NotebookLLM, and the rigorous zero-leakage security posture of defense-grade systems (inspired by SecureForgeAI).
+**IVERI AI Agent** is the world's first unified, sovereign, air-gapped AI agent workbench built for **every single human being on planet Earth**—from students and independent developers to researchers, creators, global enterprises, and sovereign defense refineries. 
+
+IVERI combines:
+- The autonomous software engineering capabilities of **Claude Code and Devin** (filesystem navigation, terminal execution, AST parsing, and autonomous self-healing).
+- The document analysis and synthesis of **NotebookLLM** (layout-aware streaming of 500+ page technical manuals and books with table preservation via OpenDataLoader).
+- The interactive visual side-drawer of **Claude and Grok Artifacts** (code execution, SVG diagrams, and executive deliverables).
+- The uncompromising zero-leakage security posture of defense systems (inspired by SecureForgeAI and MRPL Problem Statement 26117).
+
+**Sole Owners & Authors**: Ishwari Bhoyar (`ishwaribhoyar2@gmail.com`) & Nishant Bhoyar (`dattanishant2@gmail.com`).
 
 ### 1.2 The Problem
-1. **Industrial Data Sovereignty vs. Cloud AI**: Refineries (e.g., MRPL Problem Statement 26117), PSUs, aerospace, defense manufacturing, and financial institutions cannot utilize cloud AI platforms (ChatGPT, Claude, Codex) because their inputs consist of unreleased P&IDs, proprietary chemical formulas, financial ledger backups, tender negotiations, and confidential operational manuals.
-2. **The "Shadow AI" Dilemma**: In the absence of an on-premise alternative that matches cloud model productivity, engineers quietly paste sensitive excerpts into public models or suffer massive productivity lag doing manual evaluations.
-3. **Fragmentation of Specialized AI Tools**: Users today juggle Cursor (coding), NotebookLLM (document Q&A), Perplexity (research), Midjourney/Fal (visuals), and Python scripts for automation. No single tool chains these modalities into coherent industrial deliverables.
-4. **AI Bubble Fragility**: SaaS AI tools collapse if cloud providers change APIs, alter pricing, or suffer outages. A business dependent on external APIs possesses zero operational anti-fragility.
+1. **AI Centralization & Privacy Stripping**: Mainstream AI platforms require sending sensitive thoughts, research, source code, and confidential documents to centralized cloud servers with invasive telemetry and data mining.
+2. **Subscription Paywalls & Fragility**: Essential intelligence is gated behind recurring monthly subscription fees ($20–$500/month). When the internet disconnects or APIs throttle, productivity halts.
+3. **Fragmentation of Specialized Tools**: Users must juggle separate apps for coding (Cursor), document reading (NotebookLLM), terminal automation, and speech.
+4. **Strict Industrial & Defense Air-Gaps**: Refineries, hospitals, defense labs, and law firms are legally barred from using cloud models due to zero-trust compliance requirements.
 
 ### 1.3 The Solution
-IVERI AI Agent delivers a single binary / native workspace that:
-- Runs **100% offline** on consumer or server-grade GPUs with zero external network connectivity.
-- Automatically selects the optimal local open-weight model based on task classification (e.g., Qwen-Coder for code, Qwen-VL for P&ID engineering drawings, Llama-3/Qwen-72B for executive note summarization).
-- Produces **hard deliverables** (native `.docx` approval notes, `.xlsx` calculations, `.pptx` decks, verified code binaries) rather than ephemeral chat strings.
-- Provides cryptographic and socket-level proof of zero data exfiltration.
-- Scales gracefully to hybrid cloud models via BYO API Keys or secure proxy only when explicitly unlocked by a paid user.
+IVERI AI Agent provides a single, 100% sovereign workbench that:
+- Runs **100% offline** on consumer laptops or enterprise GPU servers with zero external network connectivity.
+- Is **free forever for everyone** running on local hardware at ₹0 cost.
+- Automatically selects the optimal local open-weight model based on task classification (Qwen-Coder for code, SmolVLM for vision, DeepSeek-R1 for reasoning).
+- Produces **hard deliverables** (native `.docx` approval notes, `.xlsx` calculations, compilable code, `.wav` speech) with interactive Artifacts.
+- Enforces a kernel socket interceptor that physically guarantees zero data exfiltration.
 
 ---
 
-## 2. Target Market & User Personas
+## 2. Target Audience & Universal User Personas
 
-### 2.1 Target Verticals
-1. **PSUs, Refineries, & Heavy Engineering** (Oil & Gas, Chemicals, Power Grid, Mining)
-2. **Defense & Aerospace Contractors** (Air-gapped SCADA/CAD facilities)
-3. **Autonomous Software Developers & Security Auditors** (Full code synthesis, SAST, offline CI)
-4. **Knowledge Workers & Researchers** (Legal, medical, policy, academic labs)
+IVERI is architected for every user tier across the globe:
 
-### 2.2 User Personas
-
-| Persona | Role | Key Pain Point | IVERI Solution |
+| Persona | Domain | Primary Challenge | IVERI Sovereign Solution |
 | :--- | :--- | :--- | :--- |
-| **Chief Inspector Rajesh** | Lead Process Engineer, Petrochemical Refinery | Reads 80-page scanned vendor inspection PDFs and P&ID diagrams daily; drafting statutory approval notes takes 6 hours. Cannot use ChatGPT due to secrecy. | Drops PDF into IVERI Sovereign Workbench. Local VLM extracts diagrams, compares with indexed refinery SOPs, generates compliant `.docx` approval note in 90 seconds. |
-| **Vikram S.** | Senior Defense Software Engineer | Writing telemetry code for air-gapped embedded systems. No internet access allowed on development workstations. | Runs IVERI CLI / Desktop natively against local GGUF models. IVERI writes, patches, runs tests in a sandbox, and verifies code with zero outbound packets. |
-| **Pooja M.** | Independent Founder / Solo Developer | Wants Devin + Claude Code capabilities without paying $500/month across multiple SaaS subscriptions. Fears SaaS lock-in. | Uses IVERI Free Tier with local llama.cpp runtime; switches to Pro cloud proxy for complex multi-repo refactors on demand. |
+| **Aarav K. (Student / Researcher)** | Academic Lab / University | Needs to cross-examine 1,000+ page textbooks (e.g. Russell & Norvig) without paying SaaS subscriptions. | Uses IVERI locally on laptop; ingests 500+ page PDFs with table preservation; gets instant grounded answers with citations for ₹0. |
+| **Ananya T. (Solo Developer / Creator)** | Open-Source Software | Wants Devin-class autonomous coding and Claude-style Artifacts without $500/month SaaS lock-in. | Runs IVERI CLI / Desktop REPL. IVERI writes multi-file features, runs tests, fixes compiler bugs, and renders live code previews. |
+| **Chief Inspector Rajesh** | Petrochemical Refinery / Energy | Must review 80-page scanned vendor inspection PDFs and P&ID diagrams daily; cannot use cloud AI due to secrecy. | Uses IVERI Sovereign Workbench. Local VLM extracts diagrams, compares with indexed SOPs, generates compliant `.docx` approval note in 90 seconds. |
+| **Vikram S.** | Defense & Embedded Systems | Writing telemetry code for air-gapped embedded systems with zero internet access allowed. | Runs IVERI natively against local GGUF models. IVERI patches code and verifies tests with zero outbound packets guaranteed. |
 
 ---
 
