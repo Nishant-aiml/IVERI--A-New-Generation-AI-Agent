@@ -954,6 +954,7 @@ from hermes_cli.web_routers import (  # noqa: E402
 
 app.include_router(_sovereign_dashboard_routes.router)
 app.include_router(_sovereign_dashboard_routes.artifacts_router)
+app.include_router(_sovereign_dashboard_routes.ui_router)
 app.include_router(_files_routes.router)
 
 app.include_router(_git_routes.router)
