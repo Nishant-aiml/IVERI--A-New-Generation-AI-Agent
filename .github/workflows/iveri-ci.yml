@@ -27,15 +27,14 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install System & Python Dependencies
+      - name: Install Python Dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y libmagic1 tesseract-ocr
           pip install --upgrade pip
           pip install pymupdf python-docx openpyxl fastapi uvicorn pydantic rich httpx
 
-      - name: Verify Canonical SHA-256 Checksums
+      - name: Verify Cryptographic Checksums
         run: |
-          sha256sum -c SHA256SUMS
+          python scripts/verify_checksums.py
 
       - name: Run Sovereign Readiness Doctor
         run: |
@@ -57,12 +56,16 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install Core Dependencies
+      - name: Install Python Dependencies
         run: |
           pip install --upgrade pip
           pip install pymupdf python-docx openpyxl fastapi uvicorn pydantic rich httpx
 
-      - name: Run Sovereign Readiness Doctor (Batch & Python)
+      - name: Verify Cryptographic Checksums
+        run: |
+          python scripts/verify_checksums.py
+
+      - name: Run Sovereign Readiness Doctor (Python)
         run: |
           python scripts\iveri_doctor.py
 
