@@ -40,11 +40,21 @@ class NetworkEvent:
     @property
     def is_local(self) -> bool:
         """True if destination is localhost or LAN."""
+        dest = str(self.destination_ip or "").strip().lower()
+        if dest in ("localhost", "127.0.0.1", "::1", "0.0.0.0", "host.docker.internal"):
+            return True
+        if dest.endswith(".localhost") or dest.endswith(".local"):
+            return True
         try:
-            addr = ipaddress.ip_address(self.destination_ip)
+            addr = ipaddress.ip_address(dest)
             return addr.is_loopback or addr.is_private or addr.is_link_local
         except ValueError:
-            return False
+            try:
+                resolved = socket.gethostbyname(dest)
+                addr = ipaddress.ip_address(resolved)
+                return addr.is_loopback or addr.is_private or addr.is_link_local
+            except Exception:
+                return False
 
 
 class SovereignNetworkMonitor:
@@ -166,7 +176,12 @@ class SovereignNetworkMonitor:
                 return True  # Block unresolvable
 
         if self.mode == NetworkMode.SELECTIVE:
-            return event.destination_ip not in self.whitelist
+            dest = str(event.destination_ip or "").lower().strip()
+            for allowed in self.whitelist:
+                allowed = allowed.lower().strip()
+                if dest == allowed or dest.endswith("." + allowed):
+                    return False
+            return True
 
         return False
 

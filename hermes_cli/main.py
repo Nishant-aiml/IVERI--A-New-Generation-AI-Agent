@@ -3432,12 +3432,37 @@ def main():
     if getattr(args, "yolo", False):
         os.environ["HERMES_YOLO_MODE"] = "1"
 
-    # Air-gapped sovereign mode activation
+    # Air-gapped / Sovereign mode activation
     if getattr(args, "sovereign", False) or os.environ.get("IVERI_SOVEREIGN") == "1":
         try:
-            from sovereign.network_monitor import activate_sovereign_mode
-            activate_sovereign_mode(mode="airgap")
-            print("\033[96m[IVERI SOVEREIGN]\033[0m Air-gap firewall active. External egress blocked.")
+            from sovereign.network_monitor import activate_sovereign_mode, NetworkMode
+            from hermes_cli.config import load_config
+            cfg = load_config()
+            whitelist = []
+            # Whitelist configured model provider domain
+            model_base = (cfg.get("model", {}) or {}).get("base_url", "")
+            if model_base:
+                from urllib.parse import urlparse
+                parsed = urlparse(model_base)
+                if parsed.hostname:
+                    whitelist.append(parsed.hostname)
+            # Whitelist configured MCP servers
+            mcp_servers = cfg.get("mcp_servers", {}) or {}
+            for s_name, s_cfg in mcp_servers.items():
+                if isinstance(s_cfg, dict):
+                    url = s_cfg.get("url") or s_cfg.get("endpoint")
+                    if url:
+                        from urllib.parse import urlparse
+                        p = urlparse(url)
+                        if p.hostname:
+                            whitelist.append(p.hostname)
+            sov_mode = os.environ.get("IVERI_SOVEREIGN_MODE", "").lower()
+            if sov_mode == "airgap" or (not whitelist and sov_mode != "online"):
+                activate_sovereign_mode(mode="airgap")
+                print("\033[96m[IVERI SOVEREIGN]\033[0m Air-gap firewall active. External egress blocked.")
+            else:
+                activate_sovereign_mode(mode="selective", whitelist=whitelist)
+                print(f"\033[96m[IVERI SOVEREIGN]\033[0m Sovereign firewall active (authorized endpoints: {', '.join(whitelist) or 'local only'}).")
         except Exception as _sov_err:
             logger.warning("Could not activate sovereign mode: %s", _sov_err)
 
