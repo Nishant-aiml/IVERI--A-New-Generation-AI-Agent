@@ -290,7 +290,7 @@ _LOGIN_HTML_TEMPLATE = """\
   <div class="brand">Nous<span class="dot"></span>Research</div>
   <div class="card">
     <h1>Sign in</h1>
-    <p class="subtitle">Choose a sign-in method to continue to the Hermes Agent dashboard.</p>
+    <p class="subtitle">Choose a sign-in method to continue to the IVERI Agent dashboard.</p>
     <div class="provider-list">
 {provider_buttons}
     </div>

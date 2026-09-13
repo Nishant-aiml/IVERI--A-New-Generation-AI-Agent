@@ -50,12 +50,12 @@ export const ja: Translations = {
   },
 
   app: {
-    brand: "Hermes Agent",
-    brandShort: "HA",
+    brand: "IVERI AI Agent",
+    brandShort: "IVERI",
     closeNavigation: "ナビゲーションを閉じる",
     closeModelTools: "モデルとツールを閉じる",
     footer: {
-      org: "Nous Research",
+      org: "IVERI Sovereign Intelligence",
     },
     activeSessionsLabel: "アクティブなセッション:",
     gatewayStatusLabel: "ゲートウェイの状態:",
@@ -325,7 +325,7 @@ export const ja: Translations = {
     enableRuntime: "有効化",
     forceReinstall: "強制再インストール (既存のフォルダを先に削除)",
     headline:
-      "Hermes プラグインを発見、インストール、有効化、更新します (`hermes plugins` 相当)。",
+      "Hermes プラグインを発見、インストール、有効化、更新します (`iveri plugins` 相当)。",
     identifierLabel: "Git URL または owner/repo",
     inactive: "非アクティブ",
     installBtn: "インストール",
@@ -342,8 +342,8 @@ export const ja: Translations = {
     providersHint:
       "memory.provider (空 = 組み込み) と context.engine を config.yaml に書き込みます。次のセッションで有効になります。",
     refreshDashboard: "ダッシュボード拡張を再スキャン",
-    removeConfirm: "このプラグインを ~/.hermes/plugins/ から削除しますか？",
-    removeHint: "削除できるのは ~/.hermes/plugins 配下のユーザーがインストールしたプラグインのみです。",
+    removeConfirm: "このプラグインを ~/.iveri/plugins/ から削除しますか？",
+    removeHint: "削除できるのは ~/.iveri/plugins 配下のユーザーがインストールしたプラグインのみです。",
     rescanHeading: "SPA プラグインレジストリ",
     rescanHint: "ディスクにファイルを追加した後に再スキャンすると、ダッシュボードのサイドバーが新しいマニフェストを認識します。",
     runtimeHeading: "ゲートウェイランタイム (YAML プラグイン)",
@@ -365,7 +365,7 @@ export const ja: Translations = {
     all: "すべて",
     categories: "カテゴリ",
     filters: "フィルター",
-    noSkills: "スキルが見つかりません。スキルは ~/.hermes/skills/ から読み込まれます",
+    noSkills: "スキルが見つかりません。スキルは ~/.iveri/skills/ から読み込まれます",
     noSkillsMatch: "検索またはフィルターに一致するスキルはありません。",
     skillCount: "{count} スキル{s}",
     resultCount: "{count} 件の結果{s}",
@@ -379,7 +379,7 @@ export const ja: Translations = {
   },
 
   config: {
-    configPath: "~/.hermes/config.yaml",
+    configPath: "~/.iveri/config.yaml",
     filters: "フィルター",
     sections: "セクション",
     exportConfig: "設定を JSON としてエクスポート",
@@ -504,7 +504,7 @@ export const ja: Translations = {
   achievements: {
     hero: {
       kicker: "Agentic Gamerscore",
-      title: "Hermes Achievements",
+      title: "IVERI Achievements",
       subtitle:
         "実際のセッション履歴から獲得できる Hermes のコレクタブル バッジです。既知の未達成の実績は「Discovered」として表示され、Secret 実績は最初の該当する挙動が検出されるまで非表示のままです。",
       scan_subtitle:
@@ -604,7 +604,7 @@ export const ja: Translations = {
         "「X で共有」は事前入力された投稿を新しいタブで開きます。1200×630 のバッジを添付したい場合は、先に「画像をコピー」を押してください — X では投稿エディタに直接貼り付けられます。「PNG をダウンロード」はファイルとして保存し、どこでも使えるようにします。",
       clipboard_unsupported:
         "このブラウザではクリップボードへの画像コピーがサポートされていません — 代わりに「ダウンロード」をご利用ください。",
-      tweet_text: "Just unlocked {tier_part}\"{name}\" in Hermes Agent ☤",
+      tweet_text: "Just unlocked {tier_part}\"{name}\" in IVERI Agent ☤",
     },
   },
   kanban: {

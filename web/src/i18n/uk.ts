@@ -50,12 +50,12 @@ export const uk: Translations = {
   },
 
   app: {
-    brand: "Hermes Agent",
-    brandShort: "HA",
+    brand: "IVERI AI Agent",
+    brandShort: "IVERI",
     closeNavigation: "Закрити навігацію",
     closeModelTools: "Закрити модель та інструменти",
     footer: {
-      org: "Nous Research",
+      org: "IVERI Sovereign Intelligence",
     },
     activeSessionsLabel: "Активні сесії:",
     gatewayStatusLabel: "Стан шлюзу:",
@@ -327,7 +327,7 @@ export const uk: Translations = {
     enableRuntime: "Увімкнути",
     forceReinstall: "Примусово перевстановити (спершу видалити наявну теку)",
     headline:
-      "Знаходьте, встановлюйте, вмикайте та оновлюйте плагіни Hermes (паритет з `hermes plugins`).",
+      "Знаходьте, встановлюйте, вмикайте та оновлюйте плагіни Hermes (паритет з `iveri plugins`).",
     identifierLabel: "Git URL або owner/repo",
     inactive: "неактивний",
     installBtn: "Встановити",
@@ -344,8 +344,8 @@ export const uk: Translations = {
     providersHint:
       "Записує memory.provider (порожньо = вбудований) та context.engine у config.yaml. Набуває чинності в наступній сесії.",
     refreshDashboard: "Перескан розширень панелі",
-    removeConfirm: "Видалити цей плагін з ~/.hermes/plugins/?",
-    removeHint: "Видаляти можна лише плагіни, встановлені користувачем у ~/.hermes/plugins.",
+    removeConfirm: "Видалити цей плагін з ~/.iveri/plugins/?",
+    removeHint: "Видаляти можна лише плагіни, встановлені користувачем у ~/.iveri/plugins.",
     rescanHeading: "Реєстр SPA-плагінів",
     rescanHint: "Скануйте після додавання файлів на диск, щоб бічна панель підхопила нові маніфести.",
     runtimeHeading: "Час виконання шлюзу (YAML-плагіни)",
@@ -367,7 +367,7 @@ export const uk: Translations = {
     all: "Усі",
     categories: "Категорії",
     filters: "Фільтри",
-    noSkills: "Навичок не знайдено. Навички завантажуються з ~/.hermes/skills/",
+    noSkills: "Навичок не знайдено. Навички завантажуються з ~/.iveri/skills/",
     noSkillsMatch: "Жодна навичка не відповідає вашому пошуку чи фільтру.",
     skillCount: "{count} навичок",
     resultCount: "{count} результатів",
@@ -381,7 +381,7 @@ export const uk: Translations = {
   },
 
   config: {
-    configPath: "~/.hermes/config.yaml",
+    configPath: "~/.iveri/config.yaml",
     filters: "Фільтри",
     sections: "Розділи",
     exportConfig: "Експортувати конфігурацію як JSON",
@@ -506,7 +506,7 @@ export const uk: Translations = {
   achievements: {
     hero: {
       kicker: "Agentic Gamerscore",
-      title: "Hermes Achievements",
+      title: "IVERI Achievements",
       subtitle:
         "Колекційні значки Hermes, отримані з реальної історії сеансів. Відомі, але ще не виконані досягнення показані як Виявлені; Секретні досягнення залишаються прихованими, доки не з'явиться перший відповідний сигнал.",
       scan_subtitle:
@@ -606,7 +606,7 @@ export const uk: Translations = {
         "«Поділитися в X» відкриває попередньо заповнений допис у новій вкладці. Якщо хочете прикріпити значок 1200×630 — спочатку натисніть «Копіювати зображення»: X дозволить вставити його прямо в редактор твіта. «Завантажити PNG» збереже файл для використання будь-де.",
       clipboard_unsupported:
         "Цей браузер не підтримує копіювання зображень у буфер обміну — використайте «Завантажити».",
-      tweet_text: "Just unlocked {tier_part}\"{name}\" in Hermes Agent ☤",
+      tweet_text: "Just unlocked {tier_part}\"{name}\" in IVERI Agent ☤",
     },
   },
   kanban: {

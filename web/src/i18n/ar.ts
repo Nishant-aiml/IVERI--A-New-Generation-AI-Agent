@@ -50,12 +50,12 @@ export const ar = defineLocale({
   },
 
   app: {
-    brand: "Hermes Agent",
-    brandShort: "HA",
+    brand: "IVERI AI Agent",
+    brandShort: "IVERI",
     closeNavigation: "إغلاق التنقل",
     closeModelTools: "إغلاق النموذج والأدوات",
     footer: {
-      org: "Nous Research",
+      org: "IVERI Sovereign Intelligence",
     },
     activeSessionsLabel: "الجلسات النشطة:",
     gatewayStatusLabel: "حالة البوابة:",
@@ -271,7 +271,7 @@ export const ar = defineLocale({
     enableRuntime: "تفعيل",
     forceReinstall: "إعادة تثبيت إجباري (حذف المجلد الموجود أولاً)",
     headline:
-      "اكتشف وثبِّت وفعِّل وحدِّث مكوِّنات Hermes الإضافية (مطابقة `hermes plugins`).",
+      "اكتشف وثبِّت وفعِّل وحدِّث مكوِّنات Hermes الإضافية (مطابقة `iveri plugins`).",
     identifierLabel: "رابط Git أو owner/repo",
     inactive: "غير نشط",
     installBtn: "تثبيت من Git",
@@ -288,8 +288,8 @@ export const ar = defineLocale({
     providersHint:
       "يكتب memory.provider (فارغ = مدمج) و context.engine إلى config.yaml. يسري في الجلسة التالية.",
     refreshDashboard: "إعادة فحص امتدادات لوحة التحكم",
-    removeConfirm: "إزالة هذا المكوِّن الإضافي من ~/.hermes/plugins/؟",
-    removeHint: "يمكن إزالة المكوِّنات المثبتة من المستخدم تحت ~/.hermes/plugins فقط.",
+    removeConfirm: "إزالة هذا المكوِّن الإضافي من ~/.iveri/plugins/؟",
+    removeHint: "يمكن إزالة المكوِّنات المثبتة من المستخدم تحت ~/.iveri/plugins فقط.",
     rescanHeading: "سجل مكوِّنات SPA",
     rescanHint: "أعد الفحص بعد إضافة ملفات على القرص لتمكن الشريط الجانبي من التقاط المخطوطات الجديدة.",
     runtimeHeading: "وقت تشغيل البوابة (مكوِّنات YAML)",
@@ -311,7 +311,7 @@ export const ar = defineLocale({
     all: "الكل",
     categories: "الفئات",
     filters: "الفلاتر",
-    noSkills: "لم يُعثر على مهارات. يتم تحميل المهارات من ~/.hermes/skills/",
+    noSkills: "لم يُعثر على مهارات. يتم تحميل المهارات من ~/.iveri/skills/",
     noSkillsMatch: "لا توجد مهارات تطابق بحثك أو الفلاتر.",
     skillCount: "{count} مهارة{s}",
     resultCount: "{count} نتيجة{s}",
@@ -325,7 +325,7 @@ export const ar = defineLocale({
   },
 
   config: {
-    configPath: "~/.hermes/config.yaml",
+    configPath: "~/.iveri/config.yaml",
     filters: "الفلاتر",
     sections: "الأقسام",
     exportConfig: "تصدير الإعدادات كـ JSON",
@@ -537,7 +537,7 @@ export const ar = defineLocale({
         "المشاركة على X تفتح منشورًا معدَّلاً مسبقًا في تبويب جديد. انقر نسخ الصورة أولاً إذا أردت شارة الإنجاز 1200×630 مرفقة — يسمح X باللصق مباشرة في مؤلف التغريد. تنزيل PNG يحفظ الملف للاستخدام anywhere.",
       clipboard_unsupported:
         "نسخ صورة الحافظة غير مدعوم في هذا المتصفح — استخدم التنزيل بدلاً من ذلك.",
-      tweet_text: "فتحت للتو {tier_part}\"{name}\" في Hermes Agent ☤"
+      tweet_text: "فتحت للتو {tier_part}\"{name}\" في IVERI Agent ☤"
     },
   },
 

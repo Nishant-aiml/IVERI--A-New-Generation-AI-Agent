@@ -293,7 +293,7 @@ def _get_pty_active_session_files(app: "FastAPI") -> dict[str, Path]:
     return _app_state_default(app, "pty_active_session_files", dict)
 
 
-app = FastAPI(title="Hermes Agent", version=__version__, lifespan=_lifespan)
+app = FastAPI(title="IVERI Agent", version=__version__, lifespan=_lifespan)
 
 
 # Memory-provider OAuth connect routes live in the memory layer, not here.

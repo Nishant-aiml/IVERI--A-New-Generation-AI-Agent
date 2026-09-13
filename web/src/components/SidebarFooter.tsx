@@ -21,7 +21,7 @@ export function SidebarFooter({ status }: SidebarFooterProps) {
       </Typography>
 
       <a
-        href="https://nousresearch.com"
+        href="https://github.com/Nishant-aiml/IVERI--A-New-Generation-AI-Agent"
         target="_blank"
         rel="noopener noreferrer"
         className={cn(

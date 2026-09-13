@@ -50,12 +50,12 @@ export const tr: Translations = {
   },
 
   app: {
-    brand: "Hermes Agent",
-    brandShort: "HA",
+    brand: "IVERI AI Agent",
+    brandShort: "IVERI",
     closeNavigation: "Gezintiyi kapat",
     closeModelTools: "Modeli ve araçları kapat",
     footer: {
-      org: "Nous Research",
+      org: "IVERI Sovereign Intelligence",
     },
     activeSessionsLabel: "Aktif Oturumlar:",
     gatewayStatusLabel: "Ağ Geçidi Durumu:",
@@ -326,7 +326,7 @@ export const tr: Translations = {
     enableRuntime: "Etkinleştir",
     forceReinstall: "Yeniden yüklemeyi zorla (önce mevcut klasörü sil)",
     headline:
-      "Hermes eklentilerini keşfedin, yükleyin, etkinleştirin ve güncelleyin (`hermes plugins` ile eşdeğer).",
+      "Hermes eklentilerini keşfedin, yükleyin, etkinleştirin ve güncelleyin (`iveri plugins` ile eşdeğer).",
     identifierLabel: "Git URL veya owner/repo",
     inactive: "pasif",
     installBtn: "Yükle",
@@ -343,8 +343,8 @@ export const tr: Translations = {
     providersHint:
       "config.yaml'a memory.provider (boş = yerleşik) ve context.engine yazar. Bir sonraki oturumda etkili olur.",
     refreshDashboard: "Pano uzantılarını yeniden tara",
-    removeConfirm: "Bu eklenti ~/.hermes/plugins/ içinden kaldırılsın mı?",
-    removeHint: "Yalnızca ~/.hermes/plugins altındaki kullanıcı tarafından yüklenmiş eklentiler kaldırılabilir.",
+    removeConfirm: "Bu eklenti ~/.iveri/plugins/ içinden kaldırılsın mı?",
+    removeHint: "Yalnızca ~/.iveri/plugins altındaki kullanıcı tarafından yüklenmiş eklentiler kaldırılabilir.",
     rescanHeading: "SPA eklenti kayıt defteri",
     rescanHint: "Diske dosya ekledikten sonra yeniden tarayın, böylece pano kenar çubuğu yeni manifestleri algılar.",
     runtimeHeading: "Ağ geçidi çalışma zamanı (YAML eklentileri)",
@@ -366,7 +366,7 @@ export const tr: Translations = {
     all: "Tümü",
     categories: "Kategoriler",
     filters: "Filtreler",
-    noSkills: "Yetenek bulunamadı. Yetenekler ~/.hermes/skills/ adresinden yüklenir",
+    noSkills: "Yetenek bulunamadı. Yetenekler ~/.iveri/skills/ adresinden yüklenir",
     noSkillsMatch: "Aramanız veya filtrenizle eşleşen yetenek yok.",
     skillCount: "{count} yetenek{s}",
     resultCount: "{count} sonuç{s}",
@@ -380,7 +380,7 @@ export const tr: Translations = {
   },
 
   config: {
-    configPath: "~/.hermes/config.yaml",
+    configPath: "~/.iveri/config.yaml",
     filters: "Filtreler",
     sections: "Bölümler",
     exportConfig: "Yapılandırmayı JSON olarak dışa aktar",
@@ -505,7 +505,7 @@ export const tr: Translations = {
   achievements: {
     hero: {
       kicker: "Agentic Gamerscore",
-      title: "Hermes Achievements",
+      title: "IVERI Achievements",
       subtitle:
         "Gerçek oturum geçmişinden kazanılan, koleksiyonluk Hermes rozetleri. Bilinen ama henüz tamamlanmamış başarılar Keşfedildi olarak gösterilir; Gizli başarılar ilk eşleşen davranış görünene kadar saklı kalır.",
       scan_subtitle:
@@ -605,7 +605,7 @@ export const tr: Translations = {
         "X'te paylaş, yeni sekmede önceden doldurulmuş bir gönderi açar. 1200×630 rozetin eklenmesini istiyorsan önce Görseli kopyala'ya tıkla — X, görseli doğrudan tweet düzenleyiciye yapıştırmana izin verir. PNG indir, dosyayı her yerde kullanmak üzere kaydeder.",
       clipboard_unsupported:
         "Bu tarayıcıda panoya görsel kopyalama desteklenmiyor — bunun yerine İndir'i kullanın.",
-      tweet_text: "Just unlocked {tier_part}\"{name}\" in Hermes Agent ☤",
+      tweet_text: "Just unlocked {tier_part}\"{name}\" in IVERI Agent ☤",
     },
   },
   kanban: {

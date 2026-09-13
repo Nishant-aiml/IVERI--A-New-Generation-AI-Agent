@@ -50,12 +50,12 @@ export const hu: Translations = {
   },
 
   app: {
-    brand: "Hermes Agent",
-    brandShort: "HA",
+    brand: "IVERI AI Agent",
+    brandShort: "IVERI",
     closeNavigation: "Navigáció bezárása",
     closeModelTools: "Modell és eszközök bezárása",
     footer: {
-      org: "Nous Research",
+      org: "IVERI Sovereign Intelligence",
     },
     activeSessionsLabel: "Aktív munkamenetek:",
     gatewayStatusLabel: "Átjáró állapota:",
@@ -326,7 +326,7 @@ export const hu: Translations = {
     enableRuntime: "Engedélyezés",
     forceReinstall: "Kényszerített újratelepítés (a meglévő mappa előbb törlődik)",
     headline:
-      "Hermes-bővítmények felfedezése, telepítése, engedélyezése és frissítése (a `hermes plugins` paritás).",
+      "Hermes-bővítmények felfedezése, telepítése, engedélyezése és frissítése (a `iveri plugins` paritás).",
     identifierLabel: "Git URL vagy owner/repo",
     inactive: "inaktív",
     installBtn: "Telepítés",
@@ -343,8 +343,8 @@ export const hu: Translations = {
     providersHint:
       "A memory.provider (üres = beépített) és a context.engine értékét írja a config.yaml fájlba. A következő munkamenetben lép életbe.",
     refreshDashboard: "Vezérlőpult-bővítmények újraolvasása",
-    removeConfirm: "Eltávolítja ezt a bővítményt a ~/.hermes/plugins/ mappából?",
-    removeHint: "Csak a felhasználó által a ~/.hermes/plugins alá telepített bővítmények távolíthatók el.",
+    removeConfirm: "Eltávolítja ezt a bővítményt a ~/.iveri/plugins/ mappából?",
+    removeHint: "Csak a felhasználó által a ~/.iveri/plugins alá telepített bővítmények távolíthatók el.",
     rescanHeading: "SPA-bővítményregiszter",
     rescanHint: "Olvassa újra a fájlokat a lemezen történő hozzáadás után, hogy az oldalsáv felvegye az új manifesteket.",
     runtimeHeading: "Átjáró-futási idő (YAML-bővítmények)",
@@ -366,7 +366,7 @@ export const hu: Translations = {
     all: "Összes",
     categories: "Kategóriák",
     filters: "Szűrők",
-    noSkills: "Nem található készség. A készségek a ~/.hermes/skills/ mappából töltődnek be",
+    noSkills: "Nem található készség. A készségek a ~/.iveri/skills/ mappából töltődnek be",
     noSkillsMatch: "Nincs a keresésnek vagy szűrőnek megfelelő készség.",
     skillCount: "{count} készség{s}",
     resultCount: "{count} találat{s}",
@@ -380,7 +380,7 @@ export const hu: Translations = {
   },
 
   config: {
-    configPath: "~/.hermes/config.yaml",
+    configPath: "~/.iveri/config.yaml",
     filters: "Szűrők",
     sections: "Szakaszok",
     exportConfig: "Konfiguráció exportálása JSON-ba",
@@ -505,7 +505,7 @@ export const hu: Translations = {
   achievements: {
     hero: {
       kicker: "Agentic Gamerscore",
-      title: "Hermes Achievements",
+      title: "IVERI Achievements",
       subtitle:
         "Gyűjthető Hermes-jelvények, valós munkamenet-előzmények alapján szerezve. Az ismert, de még nem szerzett teljesítmények Felfedezettként jelennek meg; a Titkos teljesítmények rejtve maradnak az első egyező viselkedésig.",
       scan_subtitle:
@@ -605,7 +605,7 @@ export const hu: Translations = {
         "A „Megosztás az X-en” új lapon nyit meg egy előre kitöltött bejegyzést. Először kattints a „Kép másolása” gombra, ha az 1200×630-as jelvényt is csatolnád — az X engedi, hogy közvetlenül beillesszd a bejegyzésszerkesztőbe. A „PNG letöltése” bárhol felhasználható fájlként menti.",
       clipboard_unsupported:
         "A kép vágólapra másolása nem támogatott ebben a böngészőben — használd inkább a Letöltést.",
-      tweet_text: "Just unlocked {tier_part}\"{name}\" in Hermes Agent ☤",
+      tweet_text: "Just unlocked {tier_part}\"{name}\" in IVERI Agent ☤",
     },
   },
   kanban: {

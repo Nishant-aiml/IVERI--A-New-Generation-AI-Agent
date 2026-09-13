@@ -14,7 +14,7 @@ _CHARGE_FAILED_COPY = {
 # Submit-time BillingError codes with a fixed copy (no payload/type inspection).
 _CHARGE_ERROR_COPY = {
     "no_payment_method": "  💳 No card on file — top up and manage billing on the portal.",
-    "cli_billing_disabled": "  Remote spending is off for this account — a billing admin can turn it on from the portal's Hermes Agent page.",
+    "cli_billing_disabled": "  Remote spending is off for this account — a billing admin can turn it on from the portal's IVERI Agent page.",
     "role_required": "  Adding funds needs an org admin/owner. Ask an admin, or manage on the portal.",
     "idempotency_conflict": "  🔴 That charge key was already used for a different amount. Start a fresh top-up."}
 _CHARGE_ERROR_COPY["remote_spending_disabled"] = _CHARGE_ERROR_COPY["cli_billing_disabled"]
@@ -63,8 +63,8 @@ _STEPUP_STALE_MSG = (
     "  Remote Spending still isn't active for this terminal — the authorization didn't take. "
     "Retry, or make this change on the portal.")
 _NO_MANAGE_URL = "No manage URL available — is your portal configured?"
-_KILLSWITCH_REASON_OVERVIEW = "A billing admin can turn it on from the portal's Hermes Agent page to add funds here."
-_KILLSWITCH_REASON_BUY = "A billing admin can turn it on from the portal's Hermes Agent page before adding funds."
+_KILLSWITCH_REASON_OVERVIEW = "A billing admin can turn it on from the portal's IVERI Agent page to add funds here."
+_KILLSWITCH_REASON_BUY = "A billing admin can turn it on from the portal's IVERI Agent page before adding funds."
 
 
 class CLIBillingMixin:
@@ -761,7 +761,7 @@ class CLIBillingMixin:
             if card.provenance is None:  # older NAS without provenance → generic line
                 self._dim('Your card saved on the portal will be charged.')
         print(f"  {_RULE}")
-        self._dim('By confirming, you allow Nous Research to charge your card.')
+        self._dim('By confirming, you allow IVERI to charge your card.')
         confirm_choices = [
             ("pay", f"Pay {format_money(amount)} now", "submit the charge"),
             ("portal", "Manage on portal", "manage your card / billing in the browser"),
@@ -877,7 +877,7 @@ class CLIBillingMixin:
         # The token now has the scope, but the ORG kill-switch is a separate gate — re-fetch /state.
         fresh = build_billing_state()
         if not (fresh.logged_in and fresh.cli_billing_enabled):
-            print("  Remote Spending is allowed for this terminal, but it's still off for this org. A billing admin can turn it on from the portal's Hermes Agent page, then run /topup again.")
+            print("  Remote Spending is allowed for this terminal, but it's still off for this org. A billing admin can turn it on from the portal's IVERI Agent page, then run /topup again.")
             self._billing_portal_hint(fresh)
             return
         if fresh.card is None:  # half-done state: say so rather than a bare "✓ enabled"
@@ -956,7 +956,7 @@ class CLIBillingMixin:
         if reload_amt is None or threshold_amt is None or reload_amt <= threshold_amt:
             print("  🔴 Reload-to amount must be greater than the threshold.")
             return
-        self._dim(f"By confirming, you authorize Nous Research to charge {card.masked} whenever your balance reaches {format_money(threshold_amt)}. Turn off any time here or on the portal.", lead=True)
+        self._dim(f"By confirming, you authorize IVERI to charge {card.masked} whenever your balance reaches {format_money(threshold_amt)}. Turn off any time here or on the portal.", lead=True)
         if self._modal_choice("Turn on auto-reload?", f"Below {format_money(threshold_amt)} → reload to {format_money(reload_amt)}", _AUTO_RELOAD_AGREE_CHOICES) != "agree":
             print("  🟡 Cancelled.")
             return
