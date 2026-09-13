@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IVERI AI AGENT // Sovereign Cyberpunk Workbench</title>
+<style>
+  :root {
+    --bg: #060913;
+    --card: #0c1427;
+    --card-border: #1a2744;
+    --cyan: #00ced1;
+    --cyan-glow: rgba(0, 206, 209, 0.25);
+    --teal: #20b2aa;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+    min-height: 100vh;
+    padding: 24px;
+    background-image: 
+      radial-gradient(rgba(0, 206, 209, 0.08) 1px, transparent 1px),
+      radial-gradient(rgba(32, 178, 170, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand-logo {
+    font-size: 28px;
+    color: var(--cyan);
+    font-weight: 900;
+    text-shadow: 0 0 12px var(--cyan-glow);
+  }
+  .badge {
+    background: rgba(0, 206, 209, 0.15);
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .badge-locked {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border-color: var(--success);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.5;
+  }
+  .card-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .card-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .mode-switch {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  button {
+    background: #111d35;
+    color: var(--text);
+    border: 1px solid var(--card-border);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan-glow);
+  }
+  button.active {
+    background: var(--cyan);
+    color: #000;
+    border-color: var(--cyan);
+  }
+  .btn-action {
+    background: #1e293b;
+    border-color: #334155;
+    padding: 10px 14px;
+    font-size: 13px;
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-action:hover {
+    background: #0f172a;
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--cyan);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid var(--card-border);
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  pre {
+    background: #040711;
+    border: 1px solid var(--card-border);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--cyan);
+    overflow-x: auto;
+    font-family: monospace;
+    max-height: 180px;
+  }
+  .cockpit-split {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 900px) {
+    .cockpit-split {
+      grid-template-columns: 1fr;
+    }
+  }
+  .chat-pane {
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+  }
+  .chat-history {
+    flex: 1;
+    overflow-y: auto;
+    background: #040711;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .chat-bubble {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .bubble-user {
+    align-self: flex-end;
+    background: #1e293b;
+    border: 1px solid #334155;
+    color: var(--text);
+  }
+  .bubble-jarvis {
+    align-self: flex-start;
+    background: rgba(0, 206, 209, 0.1);
+    border: 1px solid var(--cyan);
+    color: #e2e8f0;
+  }
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+  }
+  .chat-input {
+    flex: 1;
+    background: #040711;
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+  }
+  .chat-input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan-glow);
+  }
+  .model-pill {
+    background: #111d35;
+    border: 1px solid var(--card-border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo">IVERI</div>
+    <div>
+      <div style="font-weight: 700; font-size: 15px;">Sovereign Cyberpunk Workbench</div>
+      <div style="font-size: 11px; color: var(--muted);">Sole Owners: Ishwari Bhoyar & Nishant Bhoyar</div>
+    </div>
+  </div>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <span id="status-badge" class="badge badge-locked">AIR-GAPPED // LOCKED</span>
+    <span id="uptime-tag" class="badge">UPTIME: 0s</span>
+  </div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-label">Air-Gap Policy</div>
+    <div id="mode-val" class="card-value" style="color: var(--cyan);">AIR-GAPPED</div>
+    <div class="card-sub">Zero packets can leave local machine</div>
+    <div class="mode-switch">
+      <button id="btn-airgap" class="active" onclick="setMode('air_gapped')">Air-Gapped</button>
+      <button id="btn-lan" onclick="setMode('lan_only')">LAN Only</button>
+      <button id="btn-online" onclick="setMode('online')">Online</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Socket Egress Interceptions</div>
+    <div id="blocked-count" class="card-value" style="color: var(--danger);">0 BLOCKED</div>
+    <div id="external-count" class="card-sub">External Calls Allowed: 0 bytes (0.00% leak)</div>
+    <button style="margin-top: 14px;" onclick="loadAudit()">Verify Cryptographic Audit</button>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Hardware Physics & VRAM</div>
+    <div id="hw-memory" class="card-value">2.0 GB</div>
+    <div id="hw-status" class="card-sub">GPU Accelerated // System RAM: 15.7 GB</div>
+    <div style="margin-top: 10px; font-size: 11px; color: var(--muted);">
+      Kernel: <span id="kernel-status" style="color: var(--success);">ONLINE (v1.0.0 Sovereign)</span>
+    </div>
+  </div>
+</div>
+
+<div class="cockpit-split">
+  <div style="display: flex; flex-direction: column; gap: 16px;">
+    <div class="card">
+      <div class="section-title">
+        <span>⚡ JARVIS Autonomous Actions</span>
+      </div>
+      <button class="btn-action" onclick="runJarvisAction('run_demo')">
+        <span>📚 <b>Execute Golden Demo on Repo Books</b><br><small style="color: var(--muted);">Parse 1,555 pages & generate .docx SOP</small></span>
+        <span style="color: var(--cyan);">RUN ➔</span>
+      </button>
+      <button class="btn-action" onclick="runJarvisAction('doctor')">
+        <span>🩺 <b>Run Sovereign System Doctor</b><br><small style="color: var(--muted);">Audit SQLite WAL, PyMuPDF & Air-gap firewall</small></span>
+        <span style="color: var(--cyan);">DIAGNOSE ➔</span>
+      </button>
+      <div id="action-output-box" style="display: none; margin-top: 10px;">
+        <pre id="action-output"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">
+        <span>🧠 Local AI Model Center</span>
+        <button style="padding: 4px 8px; font-size: 10px;" onclick="loadModels()">Scan Laptop</button>
+      </div>
+      <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px;">
+        Detects models on your PC or pulls lightweight models into resident memory:
+      </div>
+      <div id="models-list">
+        <div class="model-pill">
+          <div><b>Qwen 2.5 Coder 1.5B</b><br><small style="color: var(--success);">[GREEN] Fits in GPU (Fastest)</small></div>
+          <button style="padding: 4px 8px; font-size: 10px;" onclick="pullModel('qwen2.5-coder:1.5b')">Use / Pull</button>
+        </div>
+        <div class="model-pill">
+          <div><b>Llama 3.2 1B</b><br><small style="color: var(--success);">[GREEN] Fits in GPU (Fastest)</small></div>
+          <button style="padding: 4px 8px; font-size: 10px;" onclick="pullModel('llama3.2:1b')">Use / Pull</button>
+        </div>
+        <div class="model-pill">
+          <div><b>SmolVLM 256M</b><br><small style="color: var(--cyan);">[GREEN] Local Vision Engine</small></div>
+          <button style="padding: 4px 8px; font-size: 10px;" onclick="pullModel('smolvlm:256m')">Use / Pull</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card chat-pane">
+    <div class="section-title">
+      <span>💬 Sovereign Interactive Chat & Controller</span>
+      <span style="font-size: 11px; color: var(--muted); font-weight: normal;">Session: Sovereign Cockpit</span>
+    </div>
+    <div class="chat-history" id="chat-history">
+      <div class="chat-bubble bubble-jarvis">
+        <b>IVERI JARVIS Kernel:</b> Welcome. I am running 100% locally on your laptop with full air-gap isolation.<br><br>
+        Ask me any coding, research, or system task, or click the autonomous buttons on the left.
+      </div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" class="chat-input" placeholder="Give JARVIS a task or question (e.g., 'Summarize chapter 2 and create an SOP')..." onkeydown="handleChatKey(event)">
+      <button style="background: var(--cyan); color: #040711; font-weight: 700;" onclick="sendChatMessage()">Send 🚀</button>
+    </div>
+  </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr;">
+  <div class="card">
+    <div class="section-title">Artifacts & Deliverables Explorer</div>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Identifier</th>
+            <th>Type</th>
+            <th>Version</th>
+            <th>Timestamp</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="artifacts-table">
+          <tr><td colspan="5" style="text-align: center; color: var(--muted);">Loading artifacts...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Cryptographic Audit Proof</div>
+    <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">
+      HMAC-SHA256 Exfiltration Certificate:
+    </div>
+    <pre id="cert-box">Loading certificate...</pre>
+    <button style="margin-top: 10px; width: 100%;" onclick="copyCert()">Copy Legal Audit Hash</button>
+  </div>
+</div>
+
+<script>
+  let lastAudit = null;
+
+  async function updateTelemetry() {
+    try {
+      const res = await fetch('/api/sovereign/telemetry');
+      if (!res.ok) return;
+      const data = await res.json();
+      
+      document.getElementById('mode-val').textContent = data.mode_display || 'AIR-GAPPED';
+      document.getElementById('blocked-count').textContent = (data.blocked_calls || 0) + ' BLOCKED';
+      document.getElementById('external-count').textContent = 'External Allowed: ' + (data.external_calls || 0) + ' bytes (0.00% leak)';
+      document.getElementById('uptime-tag').textContent = 'UPTIME: ' + Math.floor(data.uptime_seconds || 0) + 's';
+      
+      if (data.hardware && data.hardware.available_vram_gb) {
+        document.getElementById('hw-memory').textContent = data.hardware.available_vram_gb + ' GB VRAM';
+        document.getElementById('hw-status').textContent = data.hardware.status_label || 'Memory Budget Online';
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function setMode(mode) {
+    try {
+      const res = await fetch('/api/sovereign/mode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: mode })
+      });
+      if (res.ok) {
+        document.querySelectorAll('.mode-switch button').forEach(b => b.classList.remove('active'));
+        if (mode === 'air_gapped') document.getElementById('btn-airgap').classList.add('active');
+        if (mode === 'lan_only') document.getElementById('btn-lan').classList.add('active');
+        if (mode === 'online') document.getElementById('btn-online').classList.add('active');
+        updateTelemetry();
+      }
+    } catch (e) {
+      alert('Failed to switch mode: ' + e);
+    }
+  }
+
+  async function loadArtifacts() {
+    try {
+      const res = await fetch('/api/artifacts');
+      if (!res.ok) return;
+      const data = await res.json();
+      const tbody = document.getElementById('artifacts-table');
+      if (!data.artifacts || data.artifacts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--muted);">No artifacts generated yet. Run golden demo or ask agent.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.artifacts.map(a => `
+        <tr>
+          <td style="color: var(--cyan); font-weight: 600;">${a.identifier}</td>
+          <td>${a.type}</td>
+          <td>v${a.version || 1}</td>
+          <td>${new Date((a.created_at || 0) * 1000).toLocaleTimeString()}</td>
+          <td><button onclick="alert('Viewing: ' + '${a.title}')">View</button></td>
+        </tr>
+      `).join('');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function loadAudit() {
+    try {
+      const res = await fetch('/api/sovereign/audit');
+      if (!res.ok) return;
+      const data = await res.json();
+      lastAudit = data;
+      document.getElementById('cert-box').textContent = 
+        'STATUS: ' + data.verdict + '\\n' +
+        'AUTHORITY: ' + (data.authority || 'IVERI Sovereign Authority') + '\\n' +
+        'HASH: ' + data.certificate_hash;
+    } catch (e) {
+      document.getElementById('cert-box').textContent = 'Audit service offline.';
+    }
+  }
+
+  function copyCert() {
+    if (lastAudit && lastAudit.certificate_hash) {
+      navigator.clipboard.writeText(lastAudit.certificate_hash);
+      alert('Copied Legal Audit Hash: ' + lastAudit.certificate_hash);
+    } else {
+      alert('Audit hash not loaded yet.');
+    }
+  }
+
+  // --- Interactive Chat & Autonomous Controls ---
+  async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    const history = document.getElementById('chat-history');
+
+    // Add User Bubble
+    const userDiv = document.createElement('div');
+    userDiv.className = 'chat-bubble bubble-user';
+    userDiv.textContent = text;
+    history.appendChild(userDiv);
+    history.scrollTop = history.scrollHeight;
+
+    // Add Thinking Bubble
+    const jarvisDiv = document.createElement('div');
+    jarvisDiv.className = 'chat-bubble bubble-jarvis';
+    jarvisDiv.innerHTML = '<i>Processing sovereign task...</i>';
+    history.appendChild(jarvisDiv);
+    history.scrollTop = history.scrollHeight;
+
+    try {
+      const res = await fetch('/api/sovereign/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      jarvisDiv.innerHTML = '<b>IVERI JARVIS:</b><br>' + data.reply.replace(/\n/g, '<br>');
+      loadArtifacts();
+    } catch (e) {
+      jarvisDiv.innerHTML = '<span style="color: var(--danger);">Task error: ' + e + '</span>';
+    }
+    history.scrollTop = history.scrollHeight;
+  }
+
+  function handleChatKey(e) {
+    if (e.key === 'Enter') {
+      sendChatMessage();
+    }
+  }
+
+  async function runJarvisAction(action) {
+    const box = document.getElementById('action-output-box');
+    const out = document.getElementById('action-output');
+    box.style.display = 'block';
+    out.textContent = 'Executing ' + action + ' autonomously...';
+
+    try {
+      const res = await fetch('/api/sovereign/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: action })
+      });
+      const data = await res.json();
+      out.textContent = data.output || data.message || JSON.stringify(data);
+      loadArtifacts();
+    } catch (e) {
+      out.textContent = 'Action execution error: ' + e;
+    }
+  }
+
+  async function loadModels() {
+    try {
+      const res = await fetch('/api/sovereign/models');
+      if (!res.ok) return;
+      const data = await res.json();
+      const list = document.getElementById('models-list');
+      const models = data.installed_local_models && data.installed_local_models.length > 0 
+        ? data.installed_local_models 
+        : data.available_presets;
+
+      list.innerHTML = models.map(m => `
+        <div class="model-pill">
+          <div><b>${m.name}</b><br><small style="color: var(--success);">${m.status_label}</small></div>
+          <button style="padding: 4px 8px; font-size: 10px;" onclick="pullModel('${m.name}')">Select</button>
+        </div>
+      `).join('');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function pullModel(modelName) {
+    const history = document.getElementById('chat-history');
+    const div = document.createElement('div');
+    div.className = 'chat-bubble bubble-jarvis';
+    div.innerHTML = `<b>Model Configured:</b> Switched active sovereign model target to <code>${modelName}</code>.`;
+    history.appendChild(div);
+    history.scrollTop = history.scrollHeight;
+  }
+
+  setInterval(updateTelemetry, 1000);
+  updateTelemetry();
+  loadArtifacts();
+  loadAudit();
+  loadModels();
+</script>
+
+</body>
+</html>

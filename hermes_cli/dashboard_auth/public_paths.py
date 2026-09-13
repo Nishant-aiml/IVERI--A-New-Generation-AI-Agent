@@ -25,10 +25,13 @@ PUBLIC_API_PATHS: frozenset[str] = frozenset({
     # carries its own short-lived NAS-minted JWT (purpose=cron_fire), which the
     # handler verifies — the JWT, not this allowlist, is the security boundary.
     "/api/cron/fire",
-    # IVERI Sovereign telemetry, audit, mode switcher, and UI paths
+    # IVERI Sovereign telemetry, audit, mode switcher, chat, models, action and UI paths
     "/api/sovereign/telemetry",
     "/api/sovereign/audit",
     "/api/sovereign/mode",
+    "/api/sovereign/models",
+    "/api/sovereign/chat",
+    "/api/sovereign/action",
     "/api/artifacts",
     "/sovereign",
 })
