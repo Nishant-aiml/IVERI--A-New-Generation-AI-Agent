@@ -37,7 +37,7 @@ IVERI enforces a multi-tier cryptographic hashing architecture compliant with **
 Every file in the distribution is signed and recorded in the canonical [`SHA256SUMS`](file:///c:/Users/datta.000/Desktop/Iveri%20Agent/SHA256SUMS) manifest:
 
 ```
-c0433aa59d3e243eeac573bdf988419b8186eec3306323a5ee15809babbdc025  iveri.bat
+fe2e84b8c1a9294827c383d6c7344f37f87fac8e12502c14826d8a0a98175333  iveri.bat
 e2fe576d41bcdeca79abb92527016fad350f44f77c36a39cf93e6246f3d1cbc1  iveri.ps1
 c24bdd115d0d233de8038c3ec8a1a7c758030e3bc102e802d30f5434fe28359a  Dockerfile.iveri
 85bbd0eb8c5e06bd92232d6f632943a2b88a39dba121d1f1237dfd307e84ba3a  docker-compose.iveri.yml
