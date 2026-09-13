@@ -34,13 +34,16 @@ if /i "%CMD_ARG%"=="-h" goto :show_help
 goto :eof
 
 :run_chat
+if /i "%CMD_ARG%"=="chat" shift
 echo [IVERI] Starting Sovereign Interactive REPL...
-"%PY_EXE%" "%~dp0hermes_cli\main.py" --sovereign chat %*
+"%PY_EXE%" "%~dp0hermes_cli\main.py" --sovereign chat %1 %2 %3 %4 %5 %6 %7 %8 %9
 goto :eof
 
 :run_web
+if /i "%CMD_ARG%"=="web" shift
+if /i "%CMD_ARG%"=="dashboard" shift
 echo [IVERI] Starting Sovereign Web Dashboard on http://127.0.0.1:9119 ...
-"%PY_EXE%" "%~dp0hermes_cli\main.py" --sovereign dashboard --host 127.0.0.1 --port 9119
+"%PY_EXE%" "%~dp0hermes_cli\main.py" --sovereign dashboard --host 127.0.0.1 --port 9119 %1 %2 %3 %4 %5 %6 %7 %8 %9
 goto :eof
 
 :run_doctor
