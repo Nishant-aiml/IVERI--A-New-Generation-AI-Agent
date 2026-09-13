@@ -1,0 +1,72 @@
+name: IVERI AI Agent — Sovereign CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # -------------------------------------------------------------------
+  # 1. Linux Air-Gap & Diagnostics Verification
+  # -------------------------------------------------------------------
+  verify-linux:
+    name: Verify Linux (Ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install System & Python Dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libmagic1 tesseract-ocr
+          pip install --upgrade pip
+          pip install pymupdf python-docx openpyxl fastapi uvicorn pydantic rich httpx
+
+      - name: Verify Canonical SHA-256 Checksums
+        run: |
+          sha256sum -c SHA256SUMS
+
+      - name: Run Sovereign Readiness Doctor
+        run: |
+          python scripts/iveri_doctor.py
+
+  # -------------------------------------------------------------------
+  # 2. Windows Native & Launcher Verification
+  # -------------------------------------------------------------------
+  verify-windows:
+    name: Verify Windows Native
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Core Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pymupdf python-docx openpyxl fastapi uvicorn pydantic rich httpx
+
+      - name: Run Sovereign Readiness Doctor (Batch & Python)
+        run: |
+          python scripts\iveri_doctor.py
+
+      - name: Test PowerShell Sovereign Launcher
+        shell: pwsh
+        run: |
+          .\iveri.ps1 doctor
