@@ -1844,14 +1844,12 @@ def get_xai_oauth_auth_status() -> Dict[str, Any]:
 
 
 def _provider_env_base_url(pconfig: ProviderConfig) -> str:
-    if pconfig.id == "actual":
-        from hermes_cli.providers import normalize_provider
-
-        model = read_raw_config().get("model")
-        if isinstance(model, dict) and normalize_provider(str(model.get("provider") or "")) == "actual":
-            configured_url = str(model.get("base_url") or "").strip()
-            if configured_url:
-                return configured_url
+    from hermes_cli.providers import normalize_provider
+    model = read_raw_config().get("model")
+    if isinstance(model, dict) and normalize_provider(str(model.get("provider") or "")) == pconfig.id:
+        configured_url = str(model.get("base_url") or "").strip()
+        if configured_url:
+            return configured_url
     return os.getenv(pconfig.base_url_env_var, "").strip() if pconfig.base_url_env_var else ""
 
 

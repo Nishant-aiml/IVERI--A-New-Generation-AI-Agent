@@ -133,14 +133,15 @@ def _desktop_packaged_executable_in(release_dir: Path) -> Optional[Path]:
     stage-and-swap staging dir (#86443).
     """
     if sys.platform == "darwin":
-        candidates = list(release_dir.glob("mac*/Hermes.app/Contents/MacOS/Hermes"))
+        candidates = list(release_dir.glob("mac*/Hermes.app/Contents/MacOS/Hermes")) + list(release_dir.glob("mac*/IVERI*.app/Contents/MacOS/*"))
     elif sys.platform == "win32":
         candidates = [
-            release_dir / d / "Hermes.exe" for d in ("win-unpacked", "win-ia32-unpacked", "win-arm64-unpacked")
+            release_dir / d / exe for d in ("win-unpacked", "win-ia32-unpacked", "win-arm64-unpacked")
+            for exe in ("IVERI.exe", "Iveri.exe", "Hermes.exe")
         ]
     else:
         candidates = [
-            release_dir / d / n for d in ("linux-unpacked", "linux-arm64-unpacked") for n in ("hermes", "Hermes")
+            release_dir / d / n for d in ("linux-unpacked", "linux-arm64-unpacked") for n in ("iveri", "IVERI", "hermes", "Hermes")
         ]
 
     existing = [p for p in candidates if p.exists()]
@@ -1250,6 +1251,14 @@ def _install_desktop_workspace_deps(npm: str, env: dict) -> None:
     from hermes_cli.main import PROJECT_ROOT
     from hermes_cli.main_web_build import _run_npm_install_deterministic
     from hermes_constants import with_hermes_node_path
+    
+    # Fast path: check if desktop build-critical packages are already installed and valid
+    assert_script = PROJECT_ROOT / "apps" / "desktop" / "scripts" / "assert-root-install.mjs"
+    if assert_script.exists():
+        check_proc = subprocess.run(["node", str(assert_script)], cwd=PROJECT_ROOT, capture_output=True)
+        if check_proc.returncode == 0:
+            return
+
     print("→ Installing desktop workspace dependencies...")
     # Managed Node on PATH so npm's child scripts that shell out to bare `node`
     # (e.g. electron-winstaller's select-7z-arch.js) resolve it even when the

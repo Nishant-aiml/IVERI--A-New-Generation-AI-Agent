@@ -51,8 +51,8 @@ def _probe_single_zai_endpoint(api_key: str, endpoint: tuple, timeout: float) ->
                 json={"model": model, "stream": False, "max_tokens": 1, "messages": [{"role": "user", "content": "ping"}]},
                 timeout=timeout,
             )
-            if resp.status_code == 200:
-                logger.debug("Z.AI endpoint probe: %s (%s) model=%s OK", ep_id, base_url, model)
+            if resp.status_code in (200, 429):
+                logger.debug("Z.AI endpoint probe: %s (%s) model=%s matched with status %s", ep_id, base_url, model, resp.status_code)
                 return {"id": ep_id, "base_url": base_url, "model": model, "label": label}
             logger.debug("Z.AI endpoint probe: %s model=%s returned %s", ep_id, model, resp.status_code)
         except Exception as exc:
@@ -60,7 +60,7 @@ def _probe_single_zai_endpoint(api_key: str, endpoint: tuple, timeout: float) ->
     return None
 
 
-def detect_zai_endpoint(api_key: str, timeout: float = 8.0) -> Optional[Dict[str, str]]:
+def detect_zai_endpoint(api_key: str, timeout: float = 3.0) -> Optional[Dict[str, str]]:
     """Probe z.ai endpoints in parallel; first working one in ZAI_ENDPOINTS priority order, or None."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
     # No `with`: it would join ALL probes on exit, defeating the early return below.
