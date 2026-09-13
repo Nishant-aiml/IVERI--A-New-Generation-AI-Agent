@@ -583,9 +583,9 @@ def _make_tui_argv(tui_dir: Path, tui_dev: bool) -> tuple[list[str], Path]:
             return [str(tsx), "src/entry.tsx"], tui_dir
         return [npm, "start"], tui_dir
 
-    # Desktop/dev launches always rebuild; Termux cold starts use the freshness
-    # check because esbuild startup is expensive on old mobile CPUs.
-    if not termux_startup or did_install or termux_need_rebuild:
+    # Fast launch: check freshness so esbuild startup doesn't stall every launch
+    need_rebuild = did_install or _tui_need_rebuild(tui_dir)
+    if need_rebuild:
         _run_tui_npm_build(_tui_node_bin("npm"), tui_dir, "TUI build failed.")
 
     return [_tui_node_bin("node"), "--expose-gc", str(tui_dir / "dist" / "entry.js")], tui_dir
@@ -815,7 +815,7 @@ def _launch_tui(
     # preserve_inherited=False keeps --tui and other flags out of the subcommand.
     if code == 42:
         from hermes_cli.relaunch import relaunch
-        print("\n☤ Launching update...\n")
+        print("\n⚡ Launching update...\n")
         relaunch(["update"], preserve_inherited=False)
 
     sys.exit(code)
@@ -848,7 +848,7 @@ def _sync_bundled_skills_quietly() -> None:
 
 def _resolve_use_tui(args) -> bool:
     """Decide whether to launch the TUI: ``--cli`` → classic; ``--tui`` → TUI; no TTY → classic;
-    ``HERMES_TUI=1`` → TUI; ``display.interface`` config; default classic.
+    ``HERMES_TUI=1`` → TUI; ``display.interface`` config; defaults to TUI when interactive.
 
     The TTY gate is load-bearing: ambient preferences must never hijack a piped
     ``hermes chat -q`` (kanban workers, cron) — the Ink no-TTY bail-out exits 0 and
@@ -867,7 +867,9 @@ def _resolve_use_tui(args) -> bool:
         return True
     try:
         from hermes_cli.config import load_config
-        iface = (load_config().get("display", {}) or {}).get("interface", "cli")
-        return isinstance(iface, str) and iface.strip().lower() == "tui"
+        iface = (load_config().get("display", {}) or {}).get("interface", "tui")
+        if isinstance(iface, str) and iface.strip().lower() == "cli":
+            return False
+        return True
     except Exception:
-        return False
+        return True

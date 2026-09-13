@@ -221,17 +221,27 @@ _EARLY_INTERFACE_CACHE: "list | None" = None
 
 def _config_default_interface_early() -> str:
     """Return the configured default interface ("cli"/"tui") via a minimal
-    YAML read. Best-effort: any error falls back to "cli" (legacy behavior)."""
+    YAML read. Defaults to "tui" for the unified sovereign agent experience,
+    falling back to "cli" only when explicitly configured with interface: "cli"."""
     global _EARLY_INTERFACE_CACHE
     if _EARLY_INTERFACE_CACHE is not None:
         return _EARLY_INTERFACE_CACHE[0]
-    value = "cli"
+    value = "tui"
     try:
-        home = os.environ.get("HERMES_HOME")
+        home = os.environ.get("IVERI_HOME") or os.environ.get("HERMES_HOME")
         if home:
             cfg_path = os.path.join(home, "config.yaml")
         else:
-            cfg_path = os.path.join(os.path.expanduser("~"), ".hermes", "config.yaml")
+            if sys.platform == "win32":
+                local_appdata = os.environ.get("LOCALAPPDATA", "").strip()
+                base = local_appdata if local_appdata else os.path.join(os.path.expanduser("~"), "AppData", "Local")
+                cfg_path = os.path.join(base, "iveri", "config.yaml")
+                if not os.path.exists(cfg_path):
+                    cfg_path = os.path.join(base, "hermes", "config.yaml")
+            else:
+                cfg_path = os.path.join(os.path.expanduser("~"), ".iveri", "config.yaml")
+                if not os.path.exists(cfg_path):
+                    cfg_path = os.path.join(os.path.expanduser("~"), ".hermes", "config.yaml")
         if os.path.exists(cfg_path):
             import yaml as _yaml_iface
 
@@ -242,10 +252,10 @@ def _config_default_interface_early() -> str:
             disp = raw.get("display", {})
             if isinstance(disp, dict):
                 iface = disp.get("interface")
-                if isinstance(iface, str) and iface.strip().lower() == "tui":
-                    value = "tui"
+                if isinstance(iface, str) and iface.strip().lower() == "cli":
+                    value = "cli"
     except Exception:
-        value = "cli"  # best-effort — default to classic REPL on any error
+        value = "tui"  # unified modern TUI default on any error
     _EARLY_INTERFACE_CACHE = [value]
     return value
 
@@ -254,11 +264,10 @@ def _wants_tui_early(argv: "list[str] | None" = None) -> bool:
     """Earliest TUI decision, usable before argparse/config imports.
 
     Precedence: ``--cli`` wins, then ``--tui``/``HERMES_TUI=1``, then a
-    real-TTY gate, then ``display.interface``. The TTY gate is load-bearing
-    for headless spawners (kanban workers, cron, pipes running ``chat -q``):
-    a ``display.interface: tui`` default used to boot the TUI here, whose
-    no-TTY bail-out exits 0 without doing the task. An explicit ``--tui``
-    still reaches that informative bail-out.
+    real-TTY gate, then ``display.interface`` (defaults to unified TUI).
+    The TTY gate is load-bearing for headless spawners (kanban workers,
+    cron, pipes running ``chat -q``): non-TTY sessions cleanly use the
+    lightweight streaming CLI.
     """
     if argv is None:
         argv = sys.argv[1:]
@@ -271,7 +280,7 @@ def _wants_tui_early(argv: "list[str] | None" = None) -> bool:
             return False
     except Exception:
         return False
-    return _config_default_interface_early() == "tui"
+    return _config_default_interface_early() != "cli"
 
 
 # Mouse-tracking residue suppression — runs BEFORE every other import on the

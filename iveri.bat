@@ -35,7 +35,7 @@ goto :eof
 
 :run_chat
 if /i "%CMD_ARG%"=="chat" shift
-echo [IVERI] Starting Sovereign Interactive REPL...
+echo [IVERI] Starting Sovereign Agent...
 "%PY_EXE%" "%~dp0hermes_cli\main.py" --sovereign chat %1 %2 %3 %4 %5 %6 %7 %8 %9
 goto :eof
 
