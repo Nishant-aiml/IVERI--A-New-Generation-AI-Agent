@@ -1,0 +1,69 @@
+# =====================================================================
+# IVERI AI Agent — Sovereign Air-Gapped Container
+# Defense-grade, offline-first personal and industrial AI agent workbench
+# =====================================================================
+
+FROM python:3.12-slim-bookworm AS base
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DEBIAN_FRONTEND=noninteractive \
+    IVERI_HOME=/home/iveri/.iveri \
+    IVERI_SOVEREIGN=1 \
+    HERMES_HOME=/home/iveri/.iveri
+
+# Install essential system dependencies (OCR, PDF rendering, SQLite, compilation tools)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    ca-certificates \
+    git \
+    sqlite3 \
+    libsqlite3-dev \
+    poppler-utils \
+    tesseract-ocr \
+    libmagic1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv for fast, reproducible dependency resolution
+COPY --from=ghcr.io/astral-sh/uv:0.5.25 /uv /bin/uv
+
+# Create sovereign unprivileged user
+RUN groupadd -g 1000 iveri && \
+    useradd -u 1000 -g iveri -m -s /bin/bash iveri && \
+    mkdir -p /home/iveri/.iveri /app && \
+    chown -R iveri:iveri /home/iveri /app
+
+WORKDIR /app
+
+# Copy dependency specifications first for Docker layer caching
+COPY --chown=iveri:iveri pyproject.toml /app/
+
+# Install python dependencies with uv into system python
+USER root
+RUN uv pip install --system -e . && \
+    uv pip install --system \
+    pymupdf \
+    python-docx \
+    openpyxl \
+    fastapi \
+    uvicorn \
+    pydantic \
+    rich \
+    httpx
+
+# Copy full application codebase
+COPY --chown=iveri:iveri . /app/
+
+USER iveri
+WORKDIR /app
+
+# Sovereign ports: 9119 (Web UI & Telemetry API), 11434 (Local Ollama bridge if peered)
+EXPOSE 9119
+
+# Healthcheck probing live Sovereign Telemetry endpoint
+HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://127.0.0.1:9119/api/sovereign/telemetry || exit 1
+
+# Default command launches the sovereign dashboard binding to 0.0.0.0 for container accessibility
+CMD ["python", "hermes_cli/main.py", "--sovereign", "dashboard", "--host", "0.0.0.0", "--port", "9119", "--no-open"]

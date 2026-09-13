@@ -1,0 +1,77 @@
+# =====================================================================
+# IVERI AI Agent — Sovereign Air-Gapped Docker Compose Stack
+# Combines IVERI Agent Core Workbench + Local Offline Ollama Engine
+# =====================================================================
+#
+# Quickstart:
+#   docker compose -f docker-compose.iveri.yml up -d
+#
+# Open Dashboard:
+#   http://localhost:9119
+#
+# Pull recommended local model:
+#   docker exec -it iveri-ollama ollama pull qwen2.5-coder:7b
+# =====================================================================
+
+services:
+  # -------------------------------------------------------------------
+  # 1. Local Offline Inference Engine (Ollama)
+  # -------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: iveri-ollama
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - sovereign_net
+    # For NVIDIA GPU Acceleration, uncomment the deploy block below:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # -------------------------------------------------------------------
+  # 2. IVERI Sovereign Agent Core & Web Workbench
+  # -------------------------------------------------------------------
+  iveri-workbench:
+    build:
+      context: .
+      dockerfile: Dockerfile.iveri
+    image: iveri-agent:sovereign
+    container_name: iveri-workbench
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    ports:
+      - "127.0.0.1:9119:9119"
+    volumes:
+      # Persistent sovereign agent state (SQLite WAL, RAG collections, artifacts, deliverables)
+      - iveri_data:/home/iveri/.iveri
+      # Mount current host folder into container workspace for file analysis
+      - .:/app/host_workspace:ro
+    environment:
+      - IVERI_SOVEREIGN=1
+      - OLLAMA_HOST=http://ollama:11434
+      - HERMES_HOME=/home/iveri/.iveri
+      - IVERI_HOME=/home/iveri/.iveri
+    networks:
+      - sovereign_net
+    command: ["python", "hermes_cli/main.py", "--sovereign", "dashboard", "--host", "0.0.0.0", "--port", "9119", "--no-open"]
+
+networks:
+  sovereign_net:
+    driver: bridge
+    # Set internal: true to enforce physical container network isolation (zero internet egress)
+    # internal: true
+
+volumes:
+  iveri_data:
+    name: iveri_state_data
+  ollama_models:
+    name: iveri_ollama_models
