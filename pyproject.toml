@@ -8,7 +8,11 @@ readme = "README.md"
 
 [project.scripts]
 iveri = "hermes_cli.main:main"
+iveri-agent = "run_agent:main"
+iveri-acp = "acp_adapter.entry:main"
 hermes = "hermes_cli.main:main"
+hermes-agent = "run_agent:main"
+hermes-acp = "acp_adapter.entry:main"
 
 # Upper bound is load-bearing, not cosmetic. uv resolves the project's
 # Python from `requires-python`, and an inherited `UV_PYTHON` env var (or a
@@ -17,7 +21,7 @@ hermes = "hermes_cli.main:main"
 # wheel yet and fall back to a maturin source build that fails. Capping at
 # <3.14 makes uv refuse 3.14 with a clear error instead of attempting that
 # build. Raise the ceiling once our Rust transitives ship cp314 wheels.
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.15"
 authors = [
   { name = "Ishwari Bhoyar", email = "ishwaribhoyar2@gmail.com" },
   { name = "Nishant Bhoyar", email = "dattanishant2@gmail.com" }
@@ -396,10 +400,6 @@ all = [
 requires = ["setuptools==83.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[project.scripts]
-hermes = "hermes_cli.main:main"
-hermes-agent = "run_agent:main"
-hermes-acp = "acp_adapter.entry:main"
 
 [tool.uv]
 override-dependencies = [
